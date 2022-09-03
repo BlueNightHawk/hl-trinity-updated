@@ -166,7 +166,7 @@ void CBSPRenderer::Shutdown( void )
 	FreeBuffer();
 
 	// Clear previous
-	if(m_iNumSurfaces)
+	if(m_iNumSurfaces != NULL)
 	{	
 		delete [] m_pSurfaces;
 		m_pSurfaces = nullptr;
@@ -350,7 +350,7 @@ void CBSPRenderer::Init( void )
 	glGetIntegerv(GL_PROGRAM_ERROR_POSITION_ARB, &iErrorPos);
 	glGetProgramivARB(GL_FRAGMENT_PROGRAM_ARB, GL_PROGRAM_UNDER_NATIVE_LIMITS_ARB, &iIsNative);
 
-	if(iErrorPos != -1 || !iIsNative)
+	if(iErrorPos != -1 || iIsNative == 0)
 	{
 		m_bShaderSupport = false;
 		m_bDontPromptShadersError = false;
@@ -366,7 +366,7 @@ void CBSPRenderer::Init( void )
 	glGetProgramivARB(GL_FRAGMENT_PROGRAM_ARB, GL_PROGRAM_UNDER_NATIVE_LIMITS_ARB, &iIsNative);
 	glDisable(GL_FRAGMENT_PROGRAM_ARB);
 
-	if(iErrorPos != -1 || !iIsNative)
+	if(iErrorPos != -1 || iIsNative == 0)
 	{
 		m_bShaderSupport = false;
 		m_bDontPromptShadersError = false;
@@ -385,7 +385,7 @@ void CBSPRenderer::Init( void )
 	glGetProgramivARB(GL_FRAGMENT_PROGRAM_ARB, GL_PROGRAM_UNDER_NATIVE_LIMITS_ARB, &iIsNative);
 	glDisable(GL_FRAGMENT_PROGRAM_ARB);
 
-	if(iErrorPos != -1 || !iIsNative)
+	if(iErrorPos != -1 || iIsNative == 0)
 	{
 		m_bShaderSupport = false;
 		m_bDontPromptShadersError = false;
@@ -400,7 +400,7 @@ VidInit
 */
 void CBSPRenderer::VidInit( void )
 {
-	if (!IEngineStudio.IsHardware())
+	if (IEngineStudio.IsHardware() == 0)
 	{
 		gEngfuncs.pfnClientCmd("escape\n");	
 		MessageBox(NULL, "VIDEO ERROR: This game does not support Software mode!\nTry using the -gl parameter in the command line.\n\nPress Ok to quit the game.\n", "ERROR", MB_OK);
@@ -456,7 +456,7 @@ void CBSPRenderer::VidInit( void )
 	memset(&gHUD.m_pFogSettings,	0, sizeof(fog_settings_t));
 
 	// Clear previous
-	if(m_iNumSurfaces)
+	if(m_iNumSurfaces != NULL)
 	{	
 		delete [] m_pSurfaces;
 		m_pSurfaces = nullptr;
@@ -524,7 +524,7 @@ bool CBSPRenderer::ExtensionSupported( const char *ext )
 	{
 		// we've found, ensure name is exactly ext
 		const char * end = ptr + strlen ( ext );
-		if ( isspace ( *end ) || *end == '\0' )
+		if ( isspace ( *end ) != 0 || *end == '\0' )
 			return true;
 
 		start = end;
@@ -573,10 +573,10 @@ void CBSPRenderer::GetRenderEnts( void )
 		if (pEntity->curstate.messagenum != iMsg)
 			continue;
 
-		if (pEntity->curstate.effects & EF_NODRAW)
+		if ((pEntity->curstate.effects & EF_NODRAW) != 0)
 			continue;
 
-		if((pEntity->curstate.effects & FL_MIRROR) && gMirrorManager.m_pCvarDrawMirrors->value > 0)
+		if((pEntity->curstate.effects & FL_MIRROR) != 0 && gMirrorManager.m_pCvarDrawMirrors->value > 0)
 		{
 			if(!pEntity->efrag)
 				gMirrorManager.AllocNewMirror(pEntity);
@@ -587,7 +587,7 @@ void CBSPRenderer::GetRenderEnts( void )
 			continue;
 		}
 
-		if((pEntity->curstate.effects & FL_WATERSHADER) && m_bShaderSupport && gWaterShader.m_pCvarWaterShader->value > 0)
+		if((pEntity->curstate.effects & FL_WATERSHADER) != 0 && m_bShaderSupport && gWaterShader.m_pCvarWaterShader->value > 0)
 		{
 			if(!pEntity->efrag)
 				gWaterShader.AddEntity(pEntity);
@@ -598,7 +598,7 @@ void CBSPRenderer::GetRenderEnts( void )
 			continue;
 		}
 
-		if ( pEntity->curstate.effects & FL_ELIGHT )
+		if ((pEntity->curstate.effects & FL_ELIGHT) != 0)
 		{
 			// mlights are static
 			mlight_t *mlight = &m_pModelLights[m_iNumModelLights];
@@ -623,7 +623,7 @@ void CBSPRenderer::GetRenderEnts( void )
 			continue;
 		}
 
-		if ( pEntity->curstate.effects & FL_DLIGHT )
+		if ((pEntity->curstate.effects & FL_DLIGHT) != 0)
 		{
 			cl_dlight_t *dlight	= CL_AllocDLight(pEntity->index);
 
@@ -636,7 +636,7 @@ void CBSPRenderer::GetRenderEnts( void )
 			continue;
 		}
 
-		if ( pEntity->curstate.effects & FL_SPOTLIGHT )
+		if ((pEntity->curstate.effects & FL_SPOTLIGHT) != 0)
 		{
 			if(!m_bShaderSupport || m_pCvarWorldShaders->value < 1)
 				continue;
@@ -664,7 +664,7 @@ void CBSPRenderer::GetRenderEnts( void )
 			continue;
 		}
 
-		if ( pEntity->curstate.effects & EF_LIGHT )
+		if ((pEntity->curstate.effects & EF_LIGHT) != 0)
 		{
 			cl_dlight_t *dlight	= CL_AllocDLight(pEntity->index);
 
@@ -690,7 +690,7 @@ void CBSPRenderer::GetRenderEnts( void )
 	dlight_t *el = m_pFirstELight;
 	for( int i = 0; i < MAX_GOLDSRC_ELIGHTS; i++, el++ )
 	{
-		if (el->die < gEngfuncs.GetClientTime() || !el->radius)
+		if (el->die < gEngfuncs.GetClientTime() || el->radius <= 0.0f)
 			continue;
 
 		mlight_t *mlight = &m_pModelLights[m_iNumModelLights];
@@ -714,7 +714,7 @@ void CBSPRenderer::GetRenderEnts( void )
 	cl_dlight_t *dl = m_pDynLights;
 	for(int i = 0; i < MAX_DYNLIGHTS; i++, dl++)
 	{
-		if (dl->die < gEngfuncs.GetClientTime() || !dl->radius)
+		if (dl->die < gEngfuncs.GetClientTime() || dl->radius <= 0.0f)
 			continue;
 
 		mlight_t *mlight = &m_pModelLights[m_iNumModelLights];
@@ -737,7 +737,7 @@ void CBSPRenderer::GetRenderEnts( void )
 		else
 			mlight->flashlight = false;
 
-		if(dl->cone_size)
+		if(dl->cone_size != 0.0f)
 		{
 			vec3_t vAngles = dl->angles;
 			FixVectorForSpotlight(vAngles);
@@ -4793,9 +4793,9 @@ void CBSPRenderer::SetupDynLight( void )
 	glBindTexture(GL_TEXTURE_3D, m_iAtten3DPoint);
 
 	float r = 1 / (m_pCurrentDynLight->radius * 2);
-	GLfloat planeS[] = {r, 0, 0, -m_vCurDLightOrigin[0] * r + 0.5};
-	GLfloat planeT[] = {0, r, 0, -m_vCurDLightOrigin[1] * r + 0.5};
-	GLfloat planeR[] = {0, 0, r, -m_vCurDLightOrigin[2] * r + 0.5};
+	GLfloat planeS[] = {r, 0, 0, (GLfloat)(-m_vCurDLightOrigin[0] * r + 0.5)};
+	GLfloat planeT[] = {0, r, 0, (GLfloat)(-m_vCurDLightOrigin[1] * r + 0.5)};
+	GLfloat planeR[] = {0, 0, r, (GLfloat)(-m_vCurDLightOrigin[2] * r + 0.5)};
 
 	glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR); 
 	glTexGenfv(GL_S, GL_EYE_PLANE, planeS);

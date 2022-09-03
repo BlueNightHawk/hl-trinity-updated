@@ -569,19 +569,19 @@ void CPropManager::LoadEntVars( void )
 			pValue = ValueForKey(&m_pBSPEntities[i], "skin");
 
 			if (pValue)
-				sscanf(pValue, "%d", &m_pEntities[m_iNumEntities].curstate.skin);
+				sscanf(pValue, "%hd", &m_pEntities[m_iNumEntities].curstate.skin);
 
 
 			pValue = ValueForKey(&m_pBSPEntities[i], "scale");
 
 			if (pValue)
-				sscanf(pValue, "%d", &m_pEntities[m_iNumEntities].curstate.scale);
+				sscanf(pValue, "%f", &m_pEntities[m_iNumEntities].curstate.scale);
 
 
 			pValue = ValueForKey(&m_pBSPEntities[i], "renderfx");
 
 			if (pValue)
-				sscanf(pValue, "%d", &m_pEntities[m_iNumEntities].curstate.renderfx);
+				sscanf(pValue, "%i", &m_pEntities[m_iNumEntities].curstate.renderfx);
 
 			pValue = ValueForKey(&m_pBSPEntities[i], "DisableShadows");
 

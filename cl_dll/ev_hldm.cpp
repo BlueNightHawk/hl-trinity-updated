@@ -599,15 +599,10 @@ void EV_HLDM_FireBullets(int idx, float* forward, float* right, float* up, int c
 		// do damage, paint decals
 		if (tr.fraction != 1.0)
 		{
-			switch (iBulletType)
-			{
-			default:
-				EV_HLDM_PlayTextureSound(idx, &tr, vecSrc, vecEnd, iBulletType);
-				// RENDERERS START
-				EV_HLDM_DecalGunshot(&tr, iBulletType, vecSrc, vecEnd);
-				// RENDERERS END
-				break;
-			}
+			EV_HLDM_PlayTextureSound(idx, &tr, vecSrc, vecEnd, iBulletType);
+			// RENDERERS START
+			EV_HLDM_DecalGunshot(&tr, iBulletType, vecSrc, vecEnd);
+			// RENDERERS END
 		}
 
 		gEngfuncs.pEventAPI->EV_PopPMStates();

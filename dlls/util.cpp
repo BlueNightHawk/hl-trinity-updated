@@ -1596,7 +1596,7 @@ void UTIL_Remove(CBaseEntity* pEntity)
 		return;
 
 // RENDERERS START
-	if (gmsgFreeEnt)
+	if (gmsgFreeEnt != 0)
 	{
 		MESSAGE_BEGIN(MSG_ALL, gmsgFreeEnt);
 		WRITE_SHORT(pEntity->entindex());
