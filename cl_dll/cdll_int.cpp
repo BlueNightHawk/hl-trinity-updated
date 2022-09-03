@@ -36,9 +36,36 @@
 #include "vgui_TeamFortressViewport.h"
 #include "filesystem_utils.h"
 
+// RENDERERS START
+#include "rendererdefs.h"
+#include "particle_engine.h"
+#include "bsprenderer.h"
+#include "propmanager.h"
+#include "textureloader.h"
+#include "watershader.h"
+#include "mirrormanager.h"
+
+#include "studio.h"
+#include "StudioModelRenderer.h"
+#include "GameStudioModelRenderer.h"
+
+extern CGameStudioModelRenderer g_StudioRenderer;
+extern engine_studio_api_t IEngineStudio;
+// RENDERERS END
+
 cl_enginefunc_t gEngfuncs;
 CHud gHUD;
 TeamFortressViewport* gViewPort = NULL;
+
+// RENDERERS START
+CBSPRenderer gBSPRenderer;
+CParticleEngine gParticleEngine;
+CWaterShader gWaterShader;
+
+CTextureLoader gTextureLoader;
+CPropManager gPropManager;
+CMirrorManager gMirrorManager;
+// RENDERERS END
 
 
 #include "particleman.h"
@@ -127,6 +154,10 @@ int DLLEXPORT Initialize(cl_enginefunc_t* pEnginefuncs, int iVersion)
 		return 0;
 	}
 
+	// RENDERERS START
+	R_DisableSteamMSAA();
+	// RENDERERS END
+
 	// get tracker interface, if any
 	return 1;
 }
@@ -185,6 +216,10 @@ int DLLEXPORT HUD_Redraw(float time, int intermission)
 	//	RecClHudRedraw(time, intermission);
 
 	gHUD.Redraw(time, 0 != intermission);
+
+	// RENDERERS START
+	HUD_PrintSpeeds();
+	// RENDERERS END
 
 	return 1;
 }
@@ -387,3 +422,18 @@ public:
 };
 
 EXPOSE_SINGLE_INTERFACE(CClientExports, IGameClientExports, GAMECLIENTEXPORTS_INTERFACE_VERSION);
+
+// RENDERERS_START
+/*
+==========================
+CL_GetModelData
+
+
+==========================
+*/
+extern "C" __declspec(dllexport) void CL_GetModelByIndex(int iIndex, void** pPointer)
+{
+	void* pModel = IEngineStudio.GetModelByIndex(iIndex);
+	*pPointer = pModel;
+}
+// RENDERERS_END

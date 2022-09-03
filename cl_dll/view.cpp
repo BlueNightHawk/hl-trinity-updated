@@ -20,6 +20,13 @@
 #include "hltv.h"
 #include "Exports.h"
 
+// RENDERERS START
+#include "bsprenderer.h"
+#include "propmanager.h"
+#include "mirrormanager.h"
+#include "watershader.h"
+// RENDERERS END
+
 int CL_IsThirdPerson();
 void CL_CameraOffset(float* ofs);
 
@@ -1657,6 +1664,11 @@ void DLLEXPORT V_CalcRefdef(struct ref_params_s* pparams)
 	}
 #endif
 */
+
+	// RENDERER START
+	// 2012-02-25
+	R_CalcRefDef(pparams);
+	// RENDERER END
 }
 
 /*

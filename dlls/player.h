@@ -355,6 +355,12 @@ public:
 
 	//True if the player is currently spawning.
 	bool m_bIsSpawning = false;
+
+	// RENDERERS START
+	bool m_bUpdateEffects = true;
+	void ClearEffects(void);
+	void SendInitMessages(void);
+	// RENDERERS END
 };
 
 inline void CBasePlayer::SetWeaponBit(int id)
