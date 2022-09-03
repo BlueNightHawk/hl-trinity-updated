@@ -55,7 +55,7 @@ public:
 
 	void ParseEntities( void );
 	void LoadEntVars( void );
-	char *ValueForKey (entity_t *ent, char *key);
+	char *ValueForKey (entity_t *ent, const char *key);
 public:
 
 	int	m_iEntDataSize;

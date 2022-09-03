@@ -154,7 +154,7 @@ CreateCluster
 
 ====================
 */
-void CParticleEngine::CreateCluster( char *szPath, vec3_t origin, vec3_t dir, int iId ) 
+void CParticleEngine::CreateCluster( const char *szPath, vec3_t origin, vec3_t dir, int iId ) 
 {
 	char szFilePath[64];
 	strcpy(szFilePath, "/scripts/particles/");
@@ -189,7 +189,7 @@ CreateSystem
 
 ====================
 */
-particle_system_t *CParticleEngine::CreateSystem( char *szPath, vec3_t origin, vec3_t dir, int iId, particle_system_t *parent ) 
+particle_system_t *CParticleEngine::CreateSystem( const char *szPath, vec3_t origin, vec3_t dir, int iId, particle_system_t *parent ) 
 {
 	if(!strlen(szPath))
 		return NULL;

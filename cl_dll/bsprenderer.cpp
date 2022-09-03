@@ -811,7 +811,7 @@ AddLightStyle
 
 ====================
 */
-void CBSPRenderer::AddLightStyle( int iNum, char *szStyle )
+void CBSPRenderer::AddLightStyle( int iNum, const char *szStyle )
 {
 	memset(&m_pLightStyles[iNum], 0, sizeof(lightstyle_t));
 
@@ -5496,7 +5496,7 @@ void CBSPRenderer::InitSky( void )
 		return;
 	}
 
-	static char* szSkySuffixes[] = {"lf", "bk", "rt", "ft", "dn", "up"};
+	const char* szSkySuffixes[] = {"lf", "bk", "rt", "ft", "dn", "up"};
 
 	for (int i = 0; i < 6; i++)
 	{

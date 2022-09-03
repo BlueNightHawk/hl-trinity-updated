@@ -786,7 +786,7 @@ bool CBreakable::IsBreakable()
 
 
 // RENDERERS START
-char* CBreakable ::DamageDecal(int bitsDamageType)
+const char* CBreakable ::DamageDecal(int bitsDamageType)
 {
 	if (pev->rendermode == kRenderTransAlpha)
 		return 0;

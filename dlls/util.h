@@ -242,7 +242,7 @@ inline void UTIL_MakeVectorsPrivate(const Vector& vecAngles, float* p_vForward, 
 }
 
 // RENDERERS START
-extern void UTIL_Particle(char* szName, Vector vecOrigin, Vector vDirection, int iType);
+extern void UTIL_Particle(const char* szName, Vector vecOrigin, Vector vDirection, int iType);
 extern void UTIL_CustomDecal(TraceResult* pTrace, const char* name, int persistent = 0);
 extern void UTIL_StudioDecal(vec3_t normal, vec3_t position, const char* name, int entindex);
 // RENDERERS END

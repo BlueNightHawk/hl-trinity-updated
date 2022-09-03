@@ -2626,7 +2626,7 @@ void UTIL_StudioDecal(vec3_t normal, vec3_t position, const char* name, int enti
 	MESSAGE_END();
 }
 
-void UTIL_Particle(char* szName, Vector vecOrigin, Vector vDirection, int iType)
+void UTIL_Particle(const char* szName, Vector vecOrigin, Vector vDirection, int iType)
 {
 	MESSAGE_BEGIN(MSG_ALL, gmsgCreateSystem, NULL);
 	WRITE_COORD(vecOrigin.x);

@@ -249,7 +249,7 @@ ValueForKey
 
 ====================
 */
-char *CPropManager::ValueForKey (entity_t *ent, char *key)
+char *CPropManager::ValueForKey (entity_t *ent, const char *key)
 {
    for (epair_t  *pEPair = ent->epairs; pEPair; pEPair = pEPair->next)
    {

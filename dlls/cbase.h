@@ -202,7 +202,7 @@ public:
 	virtual bool IsMoving() { return pev->velocity != g_vecZero; }
 	virtual void OverrideReset() {}
 	// RENDERERS START
-	virtual char* DamageDecal(int bitsDamageType);
+	virtual const char* DamageDecal(int bitsDamageType);
 	// RENDERERS END
 	// This is ONLY used by the node graph to test movement through a door
 	virtual void SetToggleState(int state) {}

@@ -57,7 +57,7 @@ public:
 	bool SparkWhenHit();
 
 	// RENDERERS START
-	char* DamageDecal(int bitsDamageType) override;
+	const char* DamageDecal(int bitsDamageType) override;
 	// RENDERERS END
 
 	void EXPORT Die();
